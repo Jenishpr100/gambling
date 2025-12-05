@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mines Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <h2>Bet Menu</h2>
+
+      <label>Bet Amount:</label>
+      <input type="number" id="betInput" placeholder="0.00" />
+
+      <label>Mines:</label>
+      <input type="number" id="mineInput" value="3" min="1" max="24" />
+
+      <button id="startBtn">Start Game</button>
+      <button id="cashoutBtn" disabled>Cash Out</button>
+
+      <h3 id="balanceText">Balance: $1000.00</h3>
+      <h3 id="profitText">Profit: $0.00</h3>
+    </div>
+
+    <div class="board" id="board"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
