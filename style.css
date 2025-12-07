@@ -77,3 +77,9 @@ body {
 .bomb {
   background: #8b1e1e !important;
 }
+
+.minePreview {
+  background: #8b0000 !important;
+  color: white;
+  font-size: 28px;
+}
