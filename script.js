@@ -1,3 +1,7 @@
+let originalMineCount = 0;
+let showMines = false;
+
+
 // =====================
 // AUDIO FUNCTIONS
 // =====================
@@ -81,14 +85,23 @@ function startGame() {
   let mineCount = Number(mineInput.value);
 
   if (betAmount <= 0) {
-    alert("Bro you gotta bet SOMETHING 💀");
+    alert("Bet more than 0 -_-");
     return;
   }
 
   if (betAmount > balance) {
-    alert("You don't got that kinda bread my guy 😭");
+    alert("UR BROKE LOLLLL");
     return;
   }
+
+  // Error handling for too many mines
+  if (mineCount > 24) {
+    alert("do u are have stupid");
+    return;
+  }
+
+  // save the ORIGINAL number of mines for multiplier calculations
+  originalMineCount = mineCount;
 
   balance -= betAmount;
   updateBalance();
@@ -105,18 +118,54 @@ function startGame() {
   profitText.textContent = "Profit: $0.00";
 }
 
+
+
+
 // =====================
-// MULTIPLIER CALCULATION
+// Pay Money
 // =====================
+
 function getMultiplier() {
-  let tilesLeft = 25 - revealedSafe;
-  let minesLeft = mines.length;
-  let chanceSafe = (tilesLeft - minesLeft) / tilesLeft;
-  let multi = 1 / chanceSafe;
+  let revealed = revealedSafe;
+  let m = originalMineCount;
 
-  return Math.pow(1.05, revealedSafe).toFixed(2);
+  let totalSafeTiles = 25 - m;
 
+  let factor;
+
+  if (m < 8) {
+    factor = 25;
+  } 
+  else if (m < 17) { 
+    factor = 35;
+  } 
+  else if (m < 23) {
+    factor = 50;
+  } 
+  else { // 23-24 mines
+    factor = 85;
+  }
+
+
+  const FINAL_MULTIPLIER = 350 + (m * factor);
+
+ 
+  let base = Math.pow(FINAL_MULTIPLIER, 1 / totalSafeTiles);
+
+  let multiplier = Math.pow(base, revealed);
+
+  return multiplier.toFixed(2);
 }
+
+
+
+
+
+
+
+
+
+
 
 // =====================
 // REVEAL TILE
@@ -202,13 +251,43 @@ createBoard();
 // KEYBOARD SHORTCUT: REMOVE MINES
 // =====================
 
-
-
-
 document.addEventListener("keydown", (e) => {
-  if (e.key.toLowerCase() === "c") {
-    if (!gameActive) return;
+  if (!gameActive) return;
 
-    mines = []; 
+  // CHEAT: remove all mines
+  if (e.key.toLowerCase() === "c") {
+    mines = [];
+
+  }
+
+  // CHEAT: reveal/hide all mines
+  if (e.key.toLowerCase() === "h") {
+    toggleMinesReveal();
+
   }
 });
+
+
+
+
+
+
+
+
+function toggleMinesReveal() {
+  showMines = !showMines; // toggle on/off
+
+  tiles.forEach((tile, index) => {
+    if (mines.includes(index)) {
+      if (showMines) {
+        tile.classList.add("minePreview");
+        tile.textContent = "💣";
+      } else {
+        if (!tile.classList.contains("revealed")) {
+          tile.classList.remove("minePreview");
+          tile.textContent = "";
+        }
+      }
+    }
+  });
+}
