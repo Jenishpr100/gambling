@@ -147,7 +147,7 @@ function getMultiplier() {
   }
 
 
-  const FINAL_MULTIPLIER = 350 + (m * factor);
+  const FINAL_MULTIPLIER = 100 + (m * factor);
 
  
   let base = Math.pow(FINAL_MULTIPLIER, 1 / totalSafeTiles);
@@ -291,3 +291,4 @@ function toggleMinesReveal() {
     }
   });
 }
+
