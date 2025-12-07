@@ -88,7 +88,12 @@ function startGame() {
     alert("Bet more than 0 -_-");
     return;
   }
-
+  
+  if (mineCount < 1) {
+    alert("u cant do that thats illigal");
+    return;
+  }
+  
   if (betAmount > balance) {
     alert("UR BROKE LOLLLL");
     return;
@@ -291,4 +296,5 @@ function toggleMinesReveal() {
     }
   });
 }
+
 
